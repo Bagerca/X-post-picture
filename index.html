@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Генератор постов X</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <div class="editor">
+            <h2>Редактор поста</h2>
+            <div class="input-group">
+                <label for="name">Имя пользователя</label>
+                <input type="text" id="name" value="User Name">
+            </div>
+            <div class="input-group">
+                <label for="nickname">Никнейм (@)</label>
+                <input type="text" id="nickname" value="@username">
+            </div>
+            <div class="input-group">
+                <label for="avatar">Аватар (выберите файл)</label>
+                <input type="file" id="avatar" accept="image/*">
+            </div>
+            <div class="input-group">
+                <label for="post-text">Текст поста</label>
+                <textarea id="post-text" rows="5">Это пример текста для генерации поста в стиле X. Вы можете легко его изменить!</textarea>
+            </div>
+            <div class="input-group">
+                <label for="likes">Лайки</label>
+                <input type="number" id="likes" value="1500">
+            </div>
+            <div class="input-group">
+                <label for="retweets">Ретвиты</label>
+                <input type="number" id="retweets" value="450">
+            </div>
+            <button id="generate-image-btn">Скачать изображение</button>
+        </div>
+
+        <div class="preview-container">
+            <h3>Предварительный просмотр</h3>
+            <div id="post-preview">
+                <div class="post-header">
+                    <img id="avatar-preview" src="https://via.placeholder.com/48" alt="Аватар">
+                    <div class="user-info">
+                        <span id="name-preview" class="name">User Name</span>
+                        <span id="nickname-preview" class="nickname">@username</span>
+                    </div>
+                </div>
+                <div class="post-body">
+                    <p id="post-text-preview">Это пример текста для генерации поста в стиле X. Вы можете легко его изменить!</p>
+                </div>
+                <div class="post-footer">
+                    <div class="post-stats">
+                        <span id="retweets-preview"><b>450</b> Ретвитов</span>
+                        <span id="likes-preview"><b>1500</b> Лайков</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Библиотека для генерации изображения из HTML -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
