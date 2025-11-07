@@ -1,209 +1,193 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // === ЭЛЕМЕНТЫ РЕДАКТОРА ===
-    const nameInput = document.getElementById('name');
-    const nicknameInput = document.getElementById('nickname');
-    const avatarUrlInput = document.getElementById('avatar-url');
-    const avatarInput = document.getElementById('avatar');
-    const removeAvatarBtn = document.getElementById('remove-avatar');
-    const verifiedCheckbox = document.getElementById('verified');
-    const postTextInput = document.getElementById('post-text');
-    const postImageUrlInput = document.getElementById('post-image-url');
-    const postImageInput = document.getElementById('post-image');
-    const removePostImageBtn = document.getElementById('remove-post-image');
-    const likesInput = document.getElementById('likes');
-    const retweetsInput = document.getElementById('retweets');
-    const themeRadios = document.querySelectorAll('input[name="theme"]');
-    const isRetweetCheckbox = document.getElementById('is-retweet');
-    const retweeterNameInput = document.getElementById('retweeter-name');
-    const retweetEditor = document.getElementById('retweet-editor');
-    const isReplyCheckbox = document.getElementById('is-reply');
-    const replyEditor = document.getElementById('reply-editor');
-    const replyNameInput = document.getElementById('reply-name');
-    const replyNicknameInput = document.getElementById('reply-nickname');
-    const bgColorInput = document.getElementById('bg-color');
-    const bgImageUrlInput = document.getElementById('bg-image-url');
-    const bgImageInput = document.getElementById('bg-image');
-    const removeBgImageBtn = document.getElementById('remove-bg-image');
-    const bgBlurInput = document.getElementById('bg-blur');
-    const borderColorInput = document.getElementById('border-color');
-    const borderWidthInput = document.getElementById('border-width');
-    const borderStyleSelect = document.getElementById('border-style');
-    const generateBtn = document.getElementById('generate-image-btn');
+    // === Elements Inputs ===
+    const inputs = {
+        name: document.getElementById('name'),
+        nick: document.getElementById('nickname'),
+        verify: document.getElementById('verified-badge'),
+        avatarFile: document.getElementById('avatar-file'),
+        avatarUrl: document.getElementById('avatar-url'),
+        text: document.getElementById('post-text'),
+        postImageFile: document.getElementById('post-image-file'),
+        postImageUrl: document.getElementById('post-image-url'),
+        isReply: document.getElementById('is-reply-mode'),
+        replyName: document.getElementById('reply-name'),
+        replyText: document.getElementById('reply-text'),
+        replyAvatarUrl: document.getElementById('reply-avatar-url'),
+        time: document.getElementById('post-time'),
+        date: document.getElementById('post-date'),
+        views: document.getElementById('views-count'),
+        likes: document.getElementById('likes-count'),
+        retweets: document.getElementById('retweets-count'),
+        comments: document.getElementById('comments-count'),
+        theme: document.getElementById('theme-select'),
+        bgColor: document.getElementById('bg-color-picker'),
+        bgUrl: document.getElementById('bg-image-url'),
+        bgBlur: document.getElementById('bg-blur-range'),
+        padding: document.getElementById('padding-range'),
+    };
 
-    // === ЭЛЕМЕНТЫ ПРЕДПРОСМОТРА ===
-    const postPreview = document.getElementById('post-preview');
-    const namePreview = document.getElementById('name-preview');
-    const nicknamePreview = document.getElementById('nickname-preview');
-    const avatarPreview = document.getElementById('avatar-preview');
-    const verifiedIcon = document.getElementById('verified-icon');
-    const postTextPreview = document.getElementById('post-text-preview');
-    const postImagePreview = document.getElementById('post-image-preview');
-    const likesPreview = document.getElementById('likes-preview');
-    const retweetsPreview = document.getElementById('retweets-preview');
-    const retweetHeader = document.getElementById('retweet-header');
-    const retweeterNamePreview = document.getElementById('retweeter-name-preview');
-    const replyHeader = document.getElementById('reply-header');
-    const replyNamePreview = document.getElementById('reply-name-preview');
-    const replyNicknamePreview = document.getElementById('reply-nickname-preview');
-    const replyPreview = document.getElementById('reply-preview');
+    // === Preview Elements ===
+    const els = {
+        container: document.getElementById('post-container'),
+        wrapper: document.getElementById('capture-wrapper'),
+        name: document.getElementById('name-preview'),
+        nick: document.getElementById('nickname-preview'),
+        avatar: document.getElementById('main-avatar-preview'),
+        badgeBlue: document.getElementById('badge-blue'),
+        badgeGold: document.getElementById('badge-gold'),
+        text: document.getElementById('main-text-preview'),
+        postImg: document.getElementById('post-image-preview'),
+        replyParent: document.getElementById('reply-parent'),
+        replyName: document.getElementById('reply-name-preview'),
+        replyText: document.getElementById('reply-text-preview'),
+        replyAvatar: document.getElementById('reply-avatar-preview'),
+        time: document.getElementById('time-preview'),
+        date: document.getElementById('date-preview'),
+        views: document.getElementById('views-preview'),
+        likes: document.getElementById('likes-count-preview'),
+        retweets: document.getElementById('retweets-count-preview'),
+        comments: document.getElementById('comments-count-preview'),
+    };
 
-    // --- ОБРАБОТЧИКИ СОБЫТИЙ ---
+    // === State Management ===
+    const state = {
+        avatarSrc: 'https://via.placeholder.com/48',
+        postImgSrc: '',
+        bgUrl: '',
+    };
 
-    // Обновление текста и статистики в реальном времени
-    nameInput.addEventListener('input', () => namePreview.textContent = nameInput.value);
-    nicknameInput.addEventListener('input', () => nicknamePreview.textContent = nicknameInput.value);
-    postTextInput.addEventListener('input', () => postTextPreview.textContent = postTextInput.value);
-    likesInput.addEventListener('input', () => {
-        likesPreview.innerHTML = `<b>${Number(likesInput.value).toLocaleString('ru-RU')}</b> Лайков`;
-    });
-    retweetsInput.addEventListener('input', () => {
-        retweetsPreview.innerHTML = `<b>${Number(retweetsInput.value).toLocaleString('ru-RU')}</b> Ретвитов`;
-    });
-
-    // Аватар (URL и загрузка)
-    avatarUrlInput.addEventListener('input', () => {
-        avatarPreview.src = avatarUrlInput.value;
-        avatarPreview.classList.remove('hidden');
-    });
-
-    avatarInput.addEventListener('change', (event) => {
-        const file = event.target.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = (e) => {
-                avatarPreview.src = e.target.result;
-                avatarUrlInput.value = ''; // Сброс URL, если загружен файл
-            };
-            reader.readAsDataURL(file);
-            avatarPreview.classList.remove('hidden');
-        }
-    });
-
-    removeAvatarBtn.addEventListener('click', () => {
-        avatarPreview.src = 'https://via.placeholder.com/48'; // Сброс на placeholder
-        avatarUrlInput.value = '';
-        avatarInput.value = null; // Сброс инпута файла
-    });
-    // Верификация
-    verifiedCheckbox.addEventListener('change', () => {
-        verifiedIcon.classList.toggle('hidden', !verifiedCheckbox.checked);
-    });
-
-    // Изображение поста (URL и загрузка)
-    postImageUrlInput.addEventListener('input', () => {
-        postImagePreview.src = postImageUrlInput.value;
-        postImagePreview.classList.remove('hidden');
-    });
-
-    postImageInput.addEventListener('change', (event) => {
-        const file = event.target.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = (e) => {
-                postImagePreview.src = e.target.result;
-                postImageUrlInput.value = ''; // Сброс URL при загрузке файла
-            };
-            reader.readAsDataURL(file);
-            postImagePreview.classList.remove('hidden');
-        }
-    });
-
-    removePostImageBtn.addEventListener('click', () => {
-        postImagePreview.src = '';
-        postImagePreview.classList.add('hidden');
-        postImageUrlInput.value = '';
-        postImageInput.value = null;
-    });
-
-    // Переключение тем
-    themeRadios.forEach(radio => {
-        radio.addEventListener('change', () => {
-            postPreview.classList.remove('theme-light', 'theme-dim', 'theme-dark');
-            postPreview.classList.add(radio.value);
+    // Helper to update text
+    const bindTxt = (input, element, formatFn = v => v) => {
+        input.addEventListener('input', () => {
+            if (element.tagName === 'B' || element.tagName === 'STRONG') {
+                // Special case for bold wrapper inside
+                element.textContent = formatFn(input.value);
+            } else if (element.id === 'views-preview') {
+                 // Very specific case for view count structure
+                 element.innerHTML = `<b>${input.value}</b> просмотра`;
+            } else {
+                element.textContent = formatFn(input.value);
+            }
         });
+    };
+
+    // Basic bindings
+    bindTxt(inputs.name, els.name);
+    bindTxt(inputs.nick, els.nick);
+    bindTxt(inputs.text, els.text);
+    bindTxt(inputs.time, els.time);
+    bindTxt(inputs.date, els.date);
+    bindTxt(inputs.views, els.views); // Special handler inside bindTxt handled above differently
+    bindTxt(inputs.likes, els.likes);
+    bindTxt(inputs.retweets, els.retweets);
+    bindTxt(inputs.comments, els.comments);
+    bindTxt(inputs.replyName, els.replyName);
+    bindTxt(inputs.replyText, els.replyText);
+
+    // Specific complex inputs
+    inputs.views.addEventListener('input', () => {
+        els.views.innerHTML = `<b>${inputs.views.value}</b> просмотра`;
     });
 
-    // Ретвит
-    isRetweetCheckbox.addEventListener('change', () => {
-        const isChecked = isRetweetCheckbox.checked;
-        retweetEditor.classList.toggle('hidden', !isChecked);
-        retweetHeader.classList.toggle('hidden', !isChecked);
+    // Verification Badge
+    inputs.verify.addEventListener('change', () => {
+        els.badgeBlue.classList.add('hidden');
+        els.badgeGold.classList.add('hidden');
+        if (inputs.verify.value === 'blue') els.badgeBlue.classList.remove('hidden');
+        if (inputs.verify.value === 'gold') els.badgeGold.classList.remove('hidden');
     });
 
-    retweeterNameInput.addEventListener('input', () => {
-        retweeterNamePreview.textContent = retweeterNameInput.value;
+    // Theme
+    inputs.theme.addEventListener('change', () => {
+        els.container.className = `theme-${inputs.theme.value}`;
     });
 
-    // Ответ на пост
-    isReplyCheckbox.addEventListener('change', () => {
-        const isChecked = isReplyCheckbox.checked;
-        replyEditor.classList.toggle('hidden', !isChecked);
-        replyPreview.classList.toggle('hidden', !isChecked);
+    // Background Styling
+    const updateBg = () => {
+        const color = inputs.bgColor.value;
+        const url = inputs.bgUrl.value;
+        const blur = inputs.bgBlur.value;
+        const pad = inputs.padding.value;
+        
+        els.wrapper.style.backgroundColor = color;
+        els.wrapper.style.backgroundImage = url ? `url("${url}")` : 'none';
+        els.wrapper.style.backgroundSize = 'cover';
+        els.wrapper.style.backgroundPosition = 'center';
+        els.wrapper.style.padding = `${pad}px`;
+        
+        // Since backdrop-filter doesn't work on wrapper background directly, we fake it
+        // Actually, better to set backdrop-filter on container if desired, but user asked for bg edit.
+        // Let's leave blur for wrapper children if needed in future.
+    };
+    inputs.bgColor.addEventListener('input', updateBg);
+    inputs.bgUrl.addEventListener('input', updateBg);
+    inputs.padding.addEventListener('input', updateBg);
+
+    // Image Handling Handlers
+    const handleImageFile = (input, urlInput, previewEl, callback) => {
+        const updateImg = (src) => {
+            previewEl.src = src;
+            if (previewEl.classList.contains('hidden') && src) {
+                 previewEl.classList.remove('hidden');
+            } else if (!src) {
+                 previewEl.classList.add('hidden');
+            }
+            if(callback) callback(src);
+        };
+
+        input.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = (e) => updateImg(e.target.result);
+                reader.readAsDataURL(file);
+            }
+        });
+
+        urlInput.addEventListener('input', (e) => {
+            if (e.target.value) updateImg(e.target.value);
+        });
+    };
+
+    handleImageFile(inputs.avatarFile, inputs.avatarUrl, els.avatar);
+    handleImageFile(inputs.postImageFile, inputs.postImageUrl, els.postImg);
+    // For reply avatar handled manually since it's only URL input in HTML provided
+    inputs.replyAvatarUrl.addEventListener('input', () => {
+        els.replyAvatar.src = inputs.replyAvatarUrl.value || 'https://abs.twimg.com/sticky/default_profile_images/default_profile_400x400.png';
     });
 
-    // Настройки фона
-    bgColorInput.addEventListener('input', () => {
-        postPreview.style.setProperty('--bg-color', bgColorInput.value);
+    // Toggle Reply Mode
+    inputs.isReply.addEventListener('change', () => {
+        els.replyParent.classList.toggle('hidden', !inputs.isReply.checked);
     });
 
-    bgImageUrlInput.addEventListener('input', () => {
-        postPreview.style.setProperty('--bg-image', `url('${bgImageUrlInput.value}')`);
-        postPreview.style.backgroundImage = `url('${bgImageUrlInput.value}')`; // Для отображения в превью
+    document.getElementById('remove-post-image').addEventListener('click', () => {
+        els.postImg.src = '';
+        els.postImg.classList.add('hidden');
+        inputs.postImageFile.value = '';
+        inputs.postImageUrl.value = '';
     });
 
-    bgImageInput.addEventListener('change', (event) => {
-        const file = event.target.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = (e) => {
-                postPreview.style.setProperty('--bg-image', `url('${e.target.result}')`);
-                postPreview.style.backgroundImage = `url('${e.target.result}')`; // Для отображения в превью
-                bgImageUrlInput.value = ''; // Сброс URL
-            };
-            reader.readAsDataURL(file);
-        }
-    });
-
-    removeBgImageBtn.addEventListener('click', () => {
-         postPreview.style.setProperty('--bg-image', 'none');
-         postPreview.style.backgroundImage = 'none';
-         bgImageUrlInput.value = '';
-         bgImageInput.value = null;
-    });
-
-    bgBlurInput.addEventListener('input', () => {
-        postPreview.style.setProperty('--bg-blur', bgBlurInput.value + 'px');
-    });
-
-    borderColorInput.addEventListener('input', () => {
-        postPreview.style.setProperty('--border-color', borderColorInput.value);
-    });
-
-    borderWidthInput.addEventListener('input', () => {
-        postPreview.style.setProperty('--border-width', borderWidthInput.value + 'px');
-    });
-
-    borderStyleSelect.addEventListener('change', () => {
-        postPreview.style.setProperty('--border-style', borderStyleSelect.value);
-    });
-
-    // Генерация и скачивание изображения
-    generateBtn.addEventListener('click', () => {
-        // Получаем цвет фона из CSS переменной для корректной отрисовки
-        const computedStyle = getComputedStyle(postPreview);
-        const backgroundColor = computedStyle.getPropertyValue('--bg-color');
-        const backgroundImage = computedStyle.getPropertyValue('--bg-image');
-
-        html2canvas(postPreview, {
-            scale: 3, // Увеличенное разрешение для лучшего качества
-            useCORS: true,
-            backgroundColor: backgroundColor,
-            imageTimeout: 0,
+    // Generator
+    document.getElementById('generate-btn').addEventListener('click', () => {
+        // Ensure fonts load before capture
+        document.documentElement.classList.add('capturing');
+        
+        html2canvas(els.wrapper, {
+            scale: 3, // High Res
+            useCORS: true, // Crucial for external images
+            allowTaint: true,
+            backgroundColor: null // Use established background
         }).then(canvas => {
             const link = document.createElement('a');
-            link.download = 'post.png';
+            link.download = 'tweet-ultimate.png';
             link.href = canvas.toDataURL('image/png');
             link.click();
+            document.documentElement.classList.remove('capturing');
+        }).catch(err => {
+             alert("Ошибка при генерации. Если картинка не загрузилась, возможно сайт блокирует доступ (CORS). Попробуйте загрузить файл локально.");
+             console.error(err);
+             document.documentElement.classList.remove('capturing');
         });
     });
 });
