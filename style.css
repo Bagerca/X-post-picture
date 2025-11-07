@@ -1,11 +1,15 @@
 :root {
-    --bg-color: #000000;
-    --text-primary: #e7e9ea;
-    --text-secondary: #71767b;
-    --border-color: #2f3336;
+    /* Dynamic variables controlled by JS */
+    --post-border-radius: 16px;
+    --bg-border-radius: 20px;
+    --bg-color-value: #1d9bf0;
+    --bg-image-url: none;
+    --bg-blur-amount: 0px;
+
+    /* Static theme variables */
     --twitter-blue: #1d9bf0;
-    --badge-blue: #1d9bf0;
-    --badge-gold: #eec309;
+    --badge-blue-color: #1d9bf0;
+    --badge-gold-color: #ffad1f;
     --font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
 }
 
@@ -15,266 +19,90 @@ body {
     color: #fff;
     margin: 0;
     padding: 20px;
-    display: flex;
-    justify-content: center;
-    min-height: 100vh;
 }
 
-.main-wrapper {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 30px;
-    width: 100%;
-    max-width: 1300px;
-}
+.main-wrapper { display: flex; flex-wrap: wrap; gap: 30px; width: 100%; max-width: 1400px; margin: 0 auto;}
+.editor-panel { flex: 1; min-width: 350px; background: #1e1e1e; padding: 25px; border-radius: 16px; box-shadow: 0 5px 20px rgba(0,0,0,0.3); }
+.preview-area { flex: 1.8; min-width: 400px; display: flex; align-items: center; justify-content: center; }
 
-.editor-panel {
-    flex: 1;
-    min-width: 320px;
-    background: #1e1e1e;
-    padding: 20px;
-    border-radius: 16px;
-    box-shadow: 0 5px 20px rgba(0,0,0,0.3);
-}
-
-.preview-area {
-    flex: 1.5;
-    min-width: 400px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-details {
-    background: #2a2a2a;
-    margin-bottom: 12px;
-    border-radius: 8px;
-    padding: 10px;
-}
-
-summary {
-    cursor: pointer;
-    font-weight: 600;
-    padding: 5px;
-}
-
-.input-group {
-    display: flex;
-    flex-direction: column;
-    margin-top: 12px;
-    gap: 6px;
-}
-
-.input-group.split {
-    flex-direction: row;
-    gap: 12px;
-}
-.input-group.split > div {
-    flex: 1;
-}
-
-label {
-    font-size: 0.85rem;
-    color: #aaa;
-    font-weight: 500;
-}
-
-input, textarea, select {
-    background: #333;
-    border: 1px solid #444;
-    color: #fff;
-    padding: 10px;
-    border-radius: 6px;
-    font-family: inherit;
-    font-size: 0.95rem;
-}
-.checkbox-group {
-    flex-direction: row;
-    align-items: center;
-    gap: 10px;
-}
-
-#generate-btn {
-    width: 100%;
-    padding: 14px;
-    background-color: var(--twitter-blue);
-    color: white;
-    border: none;
-    border-radius: 99px;
-    font-size: 1.1rem;
-    font-weight: 700;
-    cursor: pointer;
-    margin-top: 20px;
-    transition: 0.2s;
-}
+details { background: #2a2a2a; margin-bottom: 12px; border-radius: 8px; padding: 12px; }
+summary { cursor: pointer; font-weight: 600; padding: 5px; }
+.input-group { display: flex; flex-direction: column; margin-top: 12px; gap: 6px; }
+.input-group.split { flex-direction: row; gap: 12px; }
+.input-group.split > div { flex: 1; }
+.checkbox-group { flex-direction: row; align-items: center; gap: 10px; }
+hr { border: 1px solid #444; margin: 20px 0; }
+label { font-size: 0.85rem; color: #aaa; font-weight: 500; }
+input, textarea, select { background: #333; border: 1px solid #444; color: #fff; padding: 10px; border-radius: 6px; font-family: inherit; font-size: 0.95rem; }
+#generate-btn { width: 100%; padding: 14px; background-color: var(--twitter-blue); color: white; border: none; border-radius: 99px; font-size: 1.1rem; font-weight: 700; cursor: pointer; margin-top: 20px; transition: 0.2s; }
 #generate-btn:hover { background-color: #1a8cd8; }
 
-/* === Стили самого поста === */
+/* === Post Styles === */
 #capture-wrapper {
-    padding: 40px;
-    background-color: #000; /* Устанавливается JS */
-    transition: background 0.3s;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    border-radius: 0px;
-    box-sizing: border-box;
+    position: relative;
+    transition: background-color 0.3s, padding 0.3s;
+    border-radius: var(--bg-border-radius);
+    overflow: hidden; /* Important for blur and radius */
 }
+/* This pseudo-element IS the background image, allowing it to be blurred independently */
+#capture-wrapper::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-image: var(--bg-image-url);
+    background-size: cover;
+    background-position: center;
+    filter: blur(var(--bg-blur-amount));
+    transform: scale(1.1); /* Prevents blurry edges */
+    z-index: 0;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+#capture-wrapper.background-enabled {
+    background-color: var(--bg-color-value);
+}
+#capture-wrapper.background-enabled::before {
+    opacity: 1;
+}
+
+/* Background Modes */
+#capture-wrapper.mode-wide { padding: 40px 80px; }
+#capture-wrapper.mode-compact { padding: 25px; }
+#capture-wrapper.mode-square { padding: 60px; }
 
 #post-container {
     background-color: var(--bg-color);
     color: var(--text-primary);
     border: 1px solid var(--border-color);
-    border-radius: 16px;
+    border-radius: var(--post-border-radius);
     padding: 12px 16px;
     max-width: 550px;
     width: 100%;
     box-sizing: border-box;
+    position: relative; /* Sits on top of the blurred ::before element */
+    z-index: 1;
 }
 
-/* Headers */
-.tweet-header {
-    display: flex;
-    align-items: flex-start;
-    gap: 12px;
-    position: relative;
-}
-#avatar-preview, #main-avatar-preview, #reply-avatar-preview {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    object-fit: cover;
-}
-.header-text {
-    display: flex;
-    flex-direction: column;
-    flex: 1;
-}
-.user-row {
-    display: flex;
-    align-items: center;
-    gap: 4px;
-    flex-wrap: wrap;
-}
-.user-name {
-    font-weight: 700;
-    font-size: 15px;
-    color: var(--text-primary);
-}
-.user-nick, .post-time-ago, .dot-separator {
-    font-size: 15px;
-    color: var(--text-secondary);
-}
-.badge {
-    width: 18px;
-    height: 18px;
-}
-#badge-blue { fill: var(--badge-blue); }
-#badge-gold { fill: var(--badge-gold); }
+.tweet-header { display: flex; align-items: flex-start; gap: 12px; }
+#main-avatar-preview { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; }
+.header-text { display: flex; flex-direction: column; flex: 1; }
+.user-row { display: flex; align-items: center; gap: 4px; flex-wrap: wrap; }
+.user-name { font-weight: 700; font-size: 15px; color: var(--text-primary); }
+.user-nick, .dot-separator { font-size: 15px; color: var(--text-secondary); }
+.badge { width: 18px; height: 18px; }
+#badge-blue { color: var(--badge-blue-color); }
+#badge-gold { color: var(--badge-gold-color); }
 
-.three-dots svg {
-    width: 20px;
-    height: 20px;
-    fill: var(--text-secondary);
-}
+.three-dots svg { width: 20px; height: 20px; fill: var(--text-secondary); margin-left: auto; }
+.post-text { font-size: 17px; line-height: 1.45; margin-top: 8px; white-space: pre-wrap; word-wrap: break-word; color: var(--text-primary); }
+.translate-post { font-size: 15px; color: var(--twitter-blue); margin-top: 12px; cursor: pointer; }
+#post-image-preview { margin-top: 12px; width: 100%; border-radius: 16px; border: 1px solid var(--border-color); object-fit: cover; }
+.metadata { margin-top: 16px; font-size: 15px; color: var(--text-secondary); display: flex; gap: 4px; align-items: center; flex-wrap: wrap; }
+.metadata b { color: var(--text-primary); font-weight: 700; }
+.stats-border { border-top: 1px solid var(--border-color); margin-top: 16px; padding-top: 4px; min-height: 1px; }
 
-/* Body */
-.post-text {
-    font-size: 17px;
-    line-height: 1.3;
-    margin-top: 12px;
-    white-space: pre-wrap;
-}
-.translate-post {
-    font-size: 13px;
-    color: var(--twitter-blue);
-    margin-top: 8px;
-    cursor: pointer;
-}
-#post-image-preview {
-    margin-top: 12px;
-    width: 100%;
-    border-radius: 16px;
-    border: 1px solid var(--border-color);
-    object-fit: cover;
-}
-
-/* Footer Metadata */
-.metadata {
-    margin-top: 16px;
-    font-size: 15px;
-    color: var(--text-secondary);
-    display: flex;
-    gap: 4px;
-    align-items: center;
-    flex-wrap: wrap;
-}
-.metadata b {
-    color: var(--text-primary);
-    font-weight: 700;
-}
-
-/* Stats Bar */
-.stats-border {
-    border-top: 1px solid var(--border-color);
-    margin-top: 16px;
-    padding-top: 16px;
-}
-.stats-actions {
-    display: flex;
-    justify-content: space-between;
-    max-width: 90%;
-}
-.stat-item {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    color: var(--text-secondary);
-    font-size: 14px;
-}
-.stat-item svg {
-    width: 19px;
-    height: 19px;
-    fill: var(--text-secondary);
-}
-
-/* Тред / Ответы */
-#reply-parent {
-    position: relative;
-}
-.reply-header { margin-bottom: 4px; }
-.reply-text { 
-    margin-top: 0 !important; 
-    font-size: 15px; 
-    margin-bottom: 12px;
-}
-.reply-connector {
-    width: 2px;
-    background: var(--border-color);
-    position: absolute;
-    top: 40px;
-    left: 19px;
-    height: calc(100% - 40px);
-}
-
-/* Темы */
-.theme-dark {
-    --bg-color: #000000;
-    --text-primary: #e7e9ea;
-    --text-secondary: #71767b;
-    --border-color: #2f3336;
-}
-.theme-dim {
-    --bg-color: #15202b;
-    --text-primary: #ffffff;
-    --text-secondary: #8899a6;
-    --border-color: #38444d;
-}
-.theme-light {
-    --bg-color: #ffffff;
-    --text-primary: #0f1419;
-    --text-secondary: #536471;
-    --border-color: #eff3f4;
-}
-
+/* Themes */
+.theme-dark { --bg-color: #000000; --text-primary: #e7e9ea; --text-secondary: #71767b; --border-color: #2f3336; }
+.theme-dim { --bg-color: #15202b; --text-primary: #ffffff; --text-secondary: #8899a6; --border-color: #38444d; }
+.theme-light { --bg-color: #ffffff; --text-primary: #0f1419; --text-secondary: #536471; --border-color: #eff3f4; }
 .hidden { display: none !important; }
