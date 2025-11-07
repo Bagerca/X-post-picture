@@ -14,7 +14,8 @@
             
             <details open>
                 <summary>👤 Основные данные</summary>
-                <div class="input-group">
+                <!-- ... (Содержимое не изменилось) ... -->
+                 <div class="input-group">
                     <label>Имя и никнейм</label>
                     <input type="text" id="name" placeholder="Name" value="Mike Desjardins">
                     <input type="text" id="nickname" placeholder="@nickname" value="@m_ZeroLogics">
@@ -22,8 +23,8 @@
                 <div class="input-group checkbox-group">
                      <label>Галочка верификации:</label>
                      <select id="verified-badge">
-                         <option value="none" selected>Нет</option>
-                         <option value="blue">Синяя</option>
+                         <option value="none">Нет</option>
+                         <option value="blue" selected>Синяя</option>
                          <option value="gold">Золотая</option>
                      </select>
                 </div>
@@ -39,60 +40,68 @@
             </details>
 
             <details>
-                <summary>🔄 Режимы поста</summary>
-                <div class="input-group checkbox-group">
-                    <input type="checkbox" id="is-retweet-mode">
-                    <label for="is-retweet-mode">Сделать ретвитом</label>
-                </div>
-                <div class="input-group checkbox-group">
-                    <input type="checkbox" id="is-reply-mode">
-                    <label for="is-reply-mode">Сделать ответом (Тред)</label>
-                </div>
-                <div id="reply-controls" class="hidden">
-                    <label>Данные исходного поста</label>
-                    <input type="text" id="reply-name" value="ShadowSFS" placeholder="Имя автора">
-                    <input type="text" id="reply-avatar-url" placeholder="URL аватара...">
-                </div>
-            </details>
-
-            <details>
-                <summary>🖼 Изображения в посте (до 4)</summary>
+                <summary>🖼 Изображение в посте</summary>
+                <!-- ... (Содержимое не изменилось) ... -->
                 <div class="input-group">
-                    <label>Выберите файлы</label>
-                    <input type="file" id="post-image-file" accept="image/*" multiple>
-                    <button id="remove-post-images">Удалить изображения</button>
+                    <label>Выберите файл или вставьте URL</label>
+                    <input type="file" id="post-image-file" accept="image/*">
+                    <input type="text" id="post-image-url" placeholder="https://...">
+                    <button id="remove-post-image">Удалить изображение</button>
                 </div>
             </details>
 
             <details>
                 <summary>📊 Статистика и время</summary>
-                <div class="input-group"> <label>Время и дата</label> <input type="text" id="post-time" value="8:33 PM"> <input type="text" id="post-date" value="6 нояб. 2025 г."> </div>
-                <div class="input-group"> <label>Просмотры</label> <input type="text" id="views-count" value="2 102"> </div>
-                <div class="input-group split"> <div><label>Комментарии</label><input type="text" id="comments-count" value="21"></div> <div><label>Ретвиты</label><input type="text" id="retweets-count" value="13"></div> <div><label>Лайки</label><input type="text" id="likes-count" value="163"></div> </div>
+                <!-- ... (ВОЗВРАЩЕНА СТАТИСТИКА) ... -->
+                <div class="input-group">
+                    <label>Время и дата</label>
+                    <input type="text" id="post-time" value="8:33 PM">
+                    <input type="text" id="post-date" value="6 нояб. 2025 г.">
+                </div>
+                <div class="input-group">
+                    <label>Просмотры</label>
+                    <input type="text" id="views-count" value="2 102">
+                </div>
+                <div class="input-group split">
+                    <div><label>Комментарии</label><input type="text" id="comments-count" value="21"></div>
+                    <div><label>Ретвиты</label><input type="text" id="retweets-count" value="13"></div>
+                    <div><label>Лайки</label><input type="text" id="likes-count" value="163"></div>
+                </div>
             </details>
 
-            <details>
+            <details open>
                 <summary>🎨 Оформление и фон</summary>
-                <div class="input-group"><label>Тема поста</label><select id="theme-select"><option value="dark">Темная (Lights out)</option><option value="dim">Темная (Dim)</option><option value="light">Светлая</option></select></div>
+                <!-- ... (Содержимое почти не изменилось) ... -->
+                <div class="input-group">
+                    <label>Тема поста</label>
+                    <select id="theme-select"><option value="dark">Темная (Lights out)</option><option value="dim">Темная (Dim)</option><option value="light">Светлая</option></select>
+                </div>
                 <div class="input-group"><label>Скругление поста (0-30px)</label><input type="range" id="post-radius-range" min="0" max="30" value="16"></div>
                 <hr>
                 <div class="input-group checkbox-group"><input type="checkbox" id="enable-background"><label for="enable-background"><b>Включить задний фон</b></label></div>
                 <div id="background-controls" class="hidden">
                     <div class="input-group"><label>Режим фона</label><select id="background-mode"><option value="wide">Широкий (Wide)</option><option value="compact" selected>Компактный</option><option value="square">Квадратный</option></select></div>
                     <div class="input-group"><label>Цвет фона</label><input type="color" id="bg-color-picker" value="#1d9bf0"></div>
-                    <div class="input-group"><label>Изображение фона</label><input type="file" id="bg-image-file" accept="image/*"><input type="text" id="bg-image-url" placeholder="или вставьте URL..."></div>
+                    <div class="input-group"><label>Изображение фона (URL)</label><input type="text" id="bg-image-url" placeholder="https://..."></div>
                     <div class="input-group"><label>Размытие фона (0-20px)</label><input type="range" id="bg-blur-range" min="0" max="20" value="0"></div>
                     <div class="input-group"><label>Скругление фона (0-40px)</label><input type="range" id="bg-radius-range" min="0" max="40" value="20"></div>
                 </div>
             </details>
 
+            <!-- НОВЫЙ БЛОК: WATERMARK -->
             <details>
                 <summary>💧 Водяной знак (Watermark)</summary>
                 <div class="input-group checkbox-group"><input type="checkbox" id="enable-watermark"><label for="enable-watermark"><b>Добавить водяной знак</b></label></div>
                 <div id="watermark-controls" class="hidden">
-                    <div class="input-group split"> <div><label>Позиция</label><select id="watermark-position"><option value="wm-bottom-right">Снизу справа</option><option value="wm-bottom-left">Снизу слева</option><option value="wm-top-right">Сверху справа</option><option value="wm-top-left">Сверху слева</option></select></div> <div><label>Тип</label><select id="watermark-type"><option value="avatar-text">Аватар + Текст</option><option value="avatar-only">Только аватар</option><option value="text-only">Только текст</option></select></div> </div>
+                    <div class="input-group split">
+                        <div><label>Позиция</label><select id="watermark-position"><option value="wm-bottom-right">Снизу справа</option><option value="wm-bottom-left">Снизу слева</option><option value="wm-top-right">Сверху справа</option><option value="wm-top-left">Сверху слева</option></select></div>
+                        <div><label>Тип</label><select id="watermark-type"><option value="avatar-text">Аватар + Текст</option><option value="avatar-only">Только аватар</option><option value="text-only">Только текст</option></select></div>
+                    </div>
                     <div class="input-group"><label>Аватар знака (Файл/URL)</label><input type="file" id="watermark-avatar-file" accept="image/*"><input type="text" id="watermark-avatar-url" placeholder="https://..."></div>
-                    <div class="input-group split"> <div><label>Текст знака</label><input type="text" id="watermark-text" value="johndoe"></div> <div><label>Цвет текста</label><input type="color" id="watermark-color" value="#ffffff"></div> </div>
+                    <div class="input-group split">
+                        <div><label>Текст знака</label><input type="text" id="watermark-text" value="johndoe"></div>
+                        <div><label>Цвет текста</label><input type="color" id="watermark-color" value="#ffffff"></div>
+                    </div>
                 </div>
             </details>
 
@@ -101,21 +110,13 @@
 
         <div class="preview-area">
             <div id="capture-wrapper">
+                <!-- НОВЫЙ ЭЛЕМЕНТ: ПРЕВЬЮ WATERMARK -->
                 <div id="watermark-preview" class="hidden"><img id="watermark-avatar-preview" src="https://placehold.co/24x24/1DA1F2/FFFFFF?text=A" alt=""><span id="watermark-text-preview">johndoe</span></div>
                 
                 <div id="post-container" class="theme-dark">
-                    <div id="retweet-header" class="hidden"><svg viewBox="0 0 24 24"><g><path d="M4.75 3.79l4.603 4.3-1.706 1.82L6 8.38V16c0 1.1.9 2 2 2h5v2H8c-2.21 0-4-1.79-4-4V8.38L2.353 9.91.647 8.09l4.104-4.3zm14.5 16.42l-4.604-4.3 1.707-1.82L18 15.62V8c0-1.1-.9-2-2-2h-5V4h5c2.21 0 4 1.79 4 4v7.62l1.647-1.53 1.706 1.82-4.103 4.3z"></path></g></svg><span id="retweeter-name-preview">You</span> Retweeted</div>
-                    <div id="reply-parent" class="hidden">
-                        <div class="tweet-header reply-header">
-                            <img id="reply-avatar-preview" src="https://placehold.co/24x24" alt="">
-                            <div class="user-row"><span id="reply-name-preview" class="user-name">ShadowSFS</span></div>
-                        </div>
-                        <div class="reply-connector"></div>
-                    </div>
-
                     <div class="main-tweet">
                         <div class="tweet-header">
-                             <div class="avatar-container"><img id="main-avatar-preview" src="https://placehold.co/48x48" alt="" crossorigin="anonymous"></div>
+                            <img id="main-avatar-preview" src="https://placehold.co/40x40/000000/FFFFFF?text=A" alt="" crossorigin="anonymous">
                             <div class="header-text">
                                 <div class="user-row">
                                     <span id="name-preview" class="user-name">Mike Desjardins</span>
@@ -126,15 +127,14 @@
                             </div>
                             <div class="three-dots"><svg viewBox="0 0 24 24"><g><path d="M3 12c0-1.1.9-2 2-2s2 .9 2 2-.9 2-2 2-2-.9-2-2zm9 2c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm7 0c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2z"></path></g></svg></div>
                         </div>
-                        <div class="post-body">
-                            <div class="post-text" id="main-text-preview">so i'm just super curious here...</div>
-                            <div id="post-images-container"></div>
-                        </div>
+                        <div class="post-text" id="main-text-preview">so i'm just super curious here...</div>
+                        <img id="post-image-preview" class="hidden" src="" crossorigin="anonymous">
                         <div class="metadata">
                             <span id="time-preview">8:33 PM</span><span class="dot-separator">·</span>
                             <span id="date-preview">6 нояб. 2025 г.</span><span class="dot-separator">·</span>
                             <span id="views-preview"><b>2 102</b> просмотра</span>
                         </div>
+                        <!-- ВОЗВРАЩЕН БЛОК СТАТИСТИКИ -->
                         <div class="stats-border">
                             <div class="stats-actions">
                                 <div class="stat-item"><svg viewBox="0 0 24 24"><g><path d="M1.751 10c0-4.42 3.584-8 8.005-8h4.366c4.49 0 8.129 3.64 8.129 8.13 0 2.96-1.607 5.68-4.196 7.11l-8.054 4.46v-3.69h-.067c-4.49.1-8.183-3.51-8.183-8.01zm8.005-6c-3.317 0-6.005 2.69-6.005 6 0 3.37 2.77 6.08 6.138 6.01l.351-.01h1.761v2.3l5.087-2.81c1.951-1.08 3.163-3.13 3.163-5.36 0-3.39-2.744-6.13-6.129-6.13H9.756z"></path></g></svg><span id="comments-count-preview">21</span></div>
