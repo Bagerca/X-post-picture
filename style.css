@@ -1,3 +1,9 @@
+:root {
+    --border-radius-m: 16px;
+    --border-radius-s: 8px;
+    --border-radius-full: 999px;
+}
+
 body {
     font-family: 'Roboto', sans-serif;
     background-color: #f0f2f5;
@@ -10,6 +16,7 @@ body {
 
 .container {
     display: flex;
+    flex-wrap: wrap;
     gap: 2rem;
     width: 100%;
     max-width: 1200px;
@@ -17,9 +24,10 @@ body {
 
 .editor {
     flex: 1;
+    min-width: 350px;
     background: #fff;
     padding: 2rem;
-    border-radius: 8px;
+    border-radius: var(--border-radius-s);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
@@ -31,106 +39,163 @@ body {
 }
 
 .input-group {
-    margin-bottom: 1rem;
+    margin-bottom: 1.25rem;
 }
-
 .input-group label {
     display: block;
     margin-bottom: 0.5rem;
     font-weight: 700;
 }
-
-.input-group input,
+.input-group input[type="text"],
+.input-group input[type="number"],
 .input-group textarea {
     width: 100%;
     padding: 0.75rem;
     border: 1px solid #ccc;
     border-radius: 4px;
     font-size: 1rem;
+    box-sizing: border-box;
 }
-
 .input-group input[type="file"] {
     padding: 0.3rem;
 }
-
+.stats-group {
+    display: flex;
+    gap: 1rem;
+}
+.theme-selector {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+.hidden {
+    display: none;
+}
 button#generate-image-btn {
     width: 100%;
     padding: 1rem;
     background-color: #1DA1F2;
     color: white;
     border: none;
-    border-radius: 999px;
+    border-radius: var(--border-radius-full);
     font-size: 1.1rem;
     font-weight: 700;
     cursor: pointer;
     transition: background-color 0.2s;
+    margin-top: 1.5rem;
 }
-
 button#generate-image-btn:hover {
     background-color: #0c85d0;
 }
+.remove-btn {
+    font-size: 0.8rem;
+    margin-top: 0.5rem;
+    padding: 0.3rem 0.6rem;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    background: #f0f0f0;
+    cursor: pointer;
+}
+
 
 .preview-container {
     flex: 1;
+    min-width: 350px;
 }
 
+/* --- СТИЛИ ПОСТА --- */
 #post-preview {
-    background-color: #ffffff;
-    border: 1px solid #e1e8ed;
-    border-radius: 16px;
-    padding: 1rem;
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius-m);
     max-width: 550px;
     margin: auto;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    background-color: var(--bg-color);
+    color: var(--text-primary);
+    transition: background-color 0.3s, color 0.3s;
 }
-
+.post-content {
+    padding: 1rem;
+}
+.retweet-header {
+    padding: 0.75rem 1rem;
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--text-secondary);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+.retweet-icon {
+    width: 16px;
+    height: 16px;
+    fill: var(--text-secondary);
+}
 .post-header {
     display: flex;
     align-items: center;
 }
-
 #avatar-preview {
     width: 48px;
     height: 48px;
     border-radius: 50%;
     margin-right: 0.75rem;
 }
-
 .user-info {
     display: flex;
     flex-direction: column;
 }
-
 .user-info .name {
     font-weight: 700;
     font-size: 1rem;
-    color: #0f1419;
+    color: var(--text-primary);
 }
-
 .user-info .nickname {
     font-size: 0.9rem;
-    color: #5b7083;
+    color: var(--text-secondary);
 }
-
 .post-body p {
-    font-size: 1.2rem;
+    font-size: 1.1rem;
     line-height: 1.5;
-    color: #0f1419;
     margin: 1rem 0;
+    white-space: pre-wrap; /* Сохраняет переносы строк из textarea */
 }
-
+#post-image-preview {
+    width: 100%;
+    border-radius: var(--border-radius-m);
+    border: 1px solid var(--border-color);
+    margin-top: 0.75rem;
+}
 .post-footer {
-    border-top: 1px solid #e1e8ed;
+    border-top: 1px solid var(--border-color);
     padding-top: 0.75rem;
     margin-top: 1rem;
 }
-
 .post-stats span {
     margin-right: 1.5rem;
-    color: #5b7083;
+    color: var(--text-secondary);
     font-size: 0.9rem;
 }
-
 .post-stats b {
-    color: #0f1419;
+    color: var(--text-primary);
+}
+
+/* --- ТЕМЫ --- */
+.theme-light {
+    --bg-color: #ffffff;
+    --text-primary: #0f1419;
+    --text-secondary: #5b7083;
+    --border-color: #e1e8ed;
+}
+.theme-dim {
+    --bg-color: #15202b;
+    --text-primary: #ffffff;
+    --text-secondary: #8899a6;
+    --border-color: #38444d;
+}
+.theme-dark {
+    --bg-color: #000000;
+    --text-primary: #d9d9d9;
+    --text-secondary: #6e767d;
+    --border-color: #2f3336;
 }
