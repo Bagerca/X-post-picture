@@ -13,6 +13,8 @@
     <div class="container">
         <div class="editor">
             <h2>Редактор поста</h2>
+
+            <!-- Основные данные -->
             <div class="input-group">
                 <label for="name">Имя пользователя</label>
                 <input type="text" id="name" value="User Name">
@@ -27,36 +29,75 @@
             </div>
             <div class="input-group">
                 <label for="post-text">Текст поста</label>
-                <textarea id="post-text" rows="5">Это пример текста для генерации поста в стиле X. Вы можете легко его изменить!</textarea>
+                <textarea id="post-text" rows="5">Это пример текста для генерации поста в стиле X. Теперь можно добавлять темы и изображения!</textarea>
             </div>
             <div class="input-group">
-                <label for="likes">Лайки</label>
-                <input type="number" id="likes" value="1500">
+                <label for="post-image">Изображение для поста</label>
+                <input type="file" id="post-image" accept="image/*">
+                <button id="remove-post-image" class="remove-btn">Удалить изображение</button>
             </div>
+
+            <!-- Статистика -->
+            <div class="stats-group">
+                <div class="input-group">
+                    <label for="likes">Лайки</label>
+                    <input type="number" id="likes" value="1500">
+                </div>
+                <div class="input-group">
+                    <label for="retweets">Ретвиты</label>
+                    <input type="number" id="retweets" value="450">
+                </div>
+            </div>
+
+            <!-- Опции поста -->
             <div class="input-group">
-                <label for="retweets">Ретвиты</label>
-                <input type="number" id="retweets" value="450">
+                <label>Тема оформления</label>
+                <div class="theme-selector">
+                    <input type="radio" id="theme-light" name="theme" value="theme-light" checked>
+                    <label for="theme-light">Светлая</label>
+                    <input type="radio" id="theme-dim" name="theme" value="theme-dim">
+                    <label for="theme-dim">Приглушенная</label>
+                    <input type="radio" id="theme-dark" name="theme" value="theme-dark">
+                    <label for="theme-dark">Темная</label>
+                </div>
             </div>
-            <button id="generate-image-btn">Скачать изображение</button>
+
+            <div class="input-group">
+                <input type="checkbox" id="is-retweet">
+                <label for="is-retweet">Сделать ретвитом</label>
+            </div>
+            <div id="retweet-editor" class="input-group hidden">
+                <label for="retweeter-name">Кем ретвитнуто</label>
+                <input type="text" id="retweeter-name" value="Elon Musk">
+            </div>
+
+            <button id="generate-image-btn">Скачать изображение (.png)</button>
         </div>
 
         <div class="preview-container">
             <h3>Предварительный просмотр</h3>
-            <div id="post-preview">
-                <div class="post-header">
-                    <img id="avatar-preview" src="https://via.placeholder.com/48" alt="Аватар">
-                    <div class="user-info">
-                        <span id="name-preview" class="name">User Name</span>
-                        <span id="nickname-preview" class="nickname">@username</span>
+            <div id="post-preview" class="theme-light">
+                <div id="retweet-header" class="hidden">
+                     <svg viewBox="0 0 24 24" class="retweet-icon"><g><path d="M23.77 15.67c-.292-.293-.767-.293-1.06 0l-2.22 2.22V7.65c0-2.068-1.683-3.75-3.75-3.75h-5.85c-.414 0-.75.336-.75.75s.336.75.75.75h5.85c1.24 0 2.25 1.01 2.25 2.25v10.24l-2.22-2.22c-.293-.293-.768-.293-1.06 0s-.294.768 0 1.06l3.5 3.5c.145.147.337.22.53.22s.383-.072.53-.22l3.5-3.5c.294-.292.294-.767 0-1.06zm-10.66 3.28H7.26c-1.24 0-2.25-1.01-2.25-2.25V6.46l2.22 2.22c.148.147.34.22.532.22s.384-.073.53-.22c.293-.293.293-.768 0-1.06l-3.5-3.5c-.293-.294-.768-.294-1.06 0l-3.5 3.5c-.294.292-.294.767 0 1.06s.767.293 1.06 0l2.22-2.22V16.7c0 2.068 1.683 3.75 3.75 3.75h5.85c.414 0 .75-.336.75-.75s-.336-.75-.75-.75z"></path></g></svg>
+                    <span id="retweeter-name-preview">Elon Musk</span> Retweeted
+                </div>
+                <div class="post-content">
+                    <div class="post-header">
+                        <img id="avatar-preview" src="https://via.placeholder.com/48" alt="Аватар">
+                        <div class="user-info">
+                            <span id="name-preview" class="name">User Name</span>
+                            <span id="nickname-preview" class="nickname">@username</span>
+                        </div>
                     </div>
-                </div>
-                <div class="post-body">
-                    <p id="post-text-preview">Это пример текста для генерации поста в стиле X. Вы можете легко его изменить!</p>
-                </div>
-                <div class="post-footer">
-                    <div class="post-stats">
-                        <span id="retweets-preview"><b>450</b> Ретвитов</span>
-                        <span id="likes-preview"><b>1500</b> Лайков</span>
+                    <div class="post-body">
+                        <p id="post-text-preview">Это пример текста для генерации поста в стиле X. Теперь можно добавлять темы и изображения!</p>
+                        <img id="post-image-preview" class="hidden" alt="Изображение поста">
+                    </div>
+                    <div class="post-footer">
+                        <div class="post-stats">
+                            <span id="retweets-preview"><b>450</b> Ретвитов</span>
+                            <span id="likes-preview"><b>1,500</b> Лайков</span>
+                        </div>
                     </div>
                 </div>
             </div>
