@@ -3,199 +3,211 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Генератор постов X</title>
+    <title>Генератор постов X Ultimate</title>
     <link rel="stylesheet" href="style.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="container">
-        <div class="editor">
-            <h2>Редактор поста</h2>
-
-            <!-- Основные данные -->
-            <div class="input-group">
-                <label for="name">Имя пользователя</label>
-                <input type="text" id="name" value="User Name">
-            </div>
-            <div class="input-group">
-                <label for="nickname">Никнейм (@)</label>
-                <input type="text" id="nickname" value="@username">
-            </div>
-            <div class="input-group">
-                <label for="avatar">Аватар (URL или загрузка)</label>
-                <input type="text" id="avatar-url" placeholder="URL аватара">
-                <input type="file" id="avatar" accept="image/*">
-                <button id="remove-avatar" class="remove-btn">Удалить аватар</button>
-            </div>
-            <div class="input-group">
-                <input type="checkbox" id="verified">
-                <label for="verified">Верификация</label>
-            </div>
-            <div class="input-group">
-                <label for="post-text">Текст поста</label>
-                <textarea id="post-text" rows="5">Это пример текста для генерации поста в стиле X. Теперь можно добавлять темы, изображения и многое другое!</textarea>
-            </div>
-            <div class="input-group">
-                <label for="post-image">Изображение для поста (URL или загрузка)</label>
-                <input type="text" id="post-image-url" placeholder="URL изображения">
-                <input type="file" id="post-image" accept="image/*">
-                <button id="remove-post-image" class="remove-btn">Удалить изображение</button>
-            </div>
-
-            <!-- Статистика -->
-            <div class="stats-group">
+    <div class="main-wrapper">
+        <div class="editor-panel">
+            <h2>Настройки поста</h2>
+            
+            <details open>
+                <summary>👤 Основные данные</summary>
                 <div class="input-group">
-                    <label for="likes">Лайки</label>
-                    <input type="number" id="likes" value="1500">
+                    <label>Имя и никнейм</label>
+                    <input type="text" id="name" placeholder="Name" value="Mike Desjardins">
+                    <input type="text" id="nickname" placeholder="@nickname" value="@m_ZeroLogics">
+                </div>
+                <div class="input-group checkbox-group">
+                     <label>Галочка верификации:</label>
+                     <select id="verified-badge">
+                         <option value="none">Нет</option>
+                         <option value="blue" selected>Синяя</option>
+                         <option value="gold">Золотая</option>
+                     </select>
                 </div>
                 <div class="input-group">
-                    <label for="retweets">Ретвиты</label>
-                    <input type="number" id="retweets" value="450">
-                </div>
-            </div>
-
-            <!-- Опции поста -->
-            <div class="input-group">
-                <label>Тема оформления</label>
-                <div class="theme-selector">
-                    <input type="radio" id="theme-light" name="theme" value="theme-light" checked>
-                    <label for="theme-light">Светлая</label>
-                    <input type="radio" id="theme-dim" name="theme" value="theme-dim">
-                    <label for="theme-dim">Приглушенная</label>
-                    <input type="radio" id="theme-dark" name="theme" value="theme-dark">
-                    <label for="theme-dark">Темная</label>
-                </div>
-            </div>
-
-            <div class="input-group">
-                <input type="checkbox" id="is-retweet">
-                <label for="is-retweet">Сделать ретвитом</label>
-            </div>
-            <div id="retweet-editor" class="input-group hidden">
-                <label for="retweeter-name">Кем ретвитнуто</label>
-                <input type="text" id="retweeter-name" value="Elon Musk">
-            </div>
-
-            <!-- Ответ на пост -->
-            <div class="input-group">
-                <input type="checkbox" id="is-reply">
-                <label for="is-reply">Ответ на пост</label>
-            </div>
-            <div id="reply-editor" class="hidden">
-                <div class="reply-to">Ответ пользователю</div>
-                <div class="input-group">
-                    <label for="reply-name">Имя пользователя</label>
-                    <input type="text" id="reply-name" value="Original User">
+                    <label>Аватар (Файл или URL)</label>
+                    <input type="file" id="avatar-file" accept="image/*">
+                    <input type="text" id="avatar-url" placeholder="https://...">
                 </div>
                 <div class="input-group">
-                    <label for="reply-nickname">Никнейм</label>
-                    <input type="text" id="reply-nickname" value="@original">
+                    <label>Текст поста</label>
+                    <textarea id="post-text" rows="4">So i'm just super curious here, i mean it's not exactly evident or clear in this video, but do you like Bendy?</textarea>
                 </div>
-            </div>
+            </details>
 
-            <!-- Настройки фона -->
-            <div class="input-group">
-                <label>Настройки фона</label>
-                <div class="background-settings">
-                    <div class="input-group">
-                        <label for="bg-color">Цвет фона</label>
-                        <input type="color" id="bg-color" value="#ffffff">
+            <details>
+                <summary>💬 Режим ответа (Тред)</summary>
+                <div class="input-group checkbox-group">
+                    <input type="checkbox" id="is-reply-mode">
+                    <label for="is-reply-mode">Показать пост, на который отвечаем</label>
+                </div>
+                <div class="input-group reply-inputs">
+                    <label>Имя автора исходного поста</label>
+                    <input type="text" id="reply-name" value="ShadowSFS">
+                    <label>Текст исходного поста</label>
+                    <input type="text" id="reply-text" value="Joe Chair room tour when?">
+                    <label>Аватар исходного поста (URL)</label>
+                    <input type="text" id="reply-avatar-url" placeholder="https://...">
+                </div>
+            </details>
+
+            <details>
+                <summary>🖼 Изображение в посте</summary>
+                <div class="input-group">
+                    <label>Выберите файл или вставьте URL</label>
+                    <input type="file" id="post-image-file" accept="image/*">
+                    <input type="text" id="post-image-url" placeholder="https://...">
+                    <button id="remove-post-image">Удалить изображение</button>
+                </div>
+            </details>
+
+            <details>
+                <summary>📊 Статистика и время</summary>
+                <div class="input-group">
+                    <label>Время и дата</label>
+                    <input type="text" id="post-time" value="8:33 PM">
+                    <input type="text" id="post-date" value="6 нояб. 2025 г.">
+                </div>
+                <div class="input-group split">
+                    <div>
+                        <label>Просмотры</label>
+                        <input type="text" id="views-count" value="2 102">
                     </div>
-                    <div class="input-group">
-                        <label for="bg-image-url">URL изображения для фона</label>
-                        <input type="text" id="bg-image-url" placeholder="URL изображения">
-                        <input type="file" id="bg-image" accept="image/*">
-                         <button id="remove-bg-image" class="remove-btn">Удалить изображение</button>
-                    </div>
-                    <div class="input-group">
-                        <label for="bg-blur">Размытие фона (px)</label>
-                        <input type="number" id="bg-blur" value="0" min="0" max="20">
-                    </div>
-                    <div class="input-group">
-                        <label>Рамка</label>
-                        <div class="border-settings">
-                            <div class="input-group">
-                                <label for="border-color">Цвет</label>
-                                <input type="color" id="border-color" value="#e1e8ed">
-                            </div>
-                            <div class="input-group">
-                                <label for="border-width">Толщина (px)</label>
-                                <input type="number" id="border-width" value="1" min="0" max="10">
-                            </div>
-                            <div class="input-group">
-                                <label for="border-style">Стиль</label>
-                                <select id="border-style">
-                                    <option value="solid">Solid</option>
-                                    <option value="dashed">Dashed</option>
-                                    <option value="dotted">Dotted</option>
-                                    <option value="double">Double</option>
-                                    <option value="groove">Groove</option>
-                                    <option value="ridge">Ridge</option>
-                                    <option value="inset">Inset</option>
-                                    <option value="outset">Outset</option>
-                                    <option value="none">None</option>
-                                </select>
-                            </div>
-                        </div>
+                    <div>
+                        <label>Лайки</label>
+                        <input type="text" id="likes-count" value="163">
                     </div>
                 </div>
-            </div>
+                <div class="input-group split">
+                    <div>
+                        <label>Ретвиты</label>
+                        <input type="text" id="retweets-count" value="13">
+                    </div>
+                    <div>
+                        <label>Комментарии</label>
+                        <input type="text" id="comments-count" value="21">
+                    </div>
+                </div>
+            </details>
 
-            <button id="generate-image-btn">Скачать изображение (.png)</button>
+            <details>
+                <summary>🎨 Оформление и фон</summary>
+                <div class="input-group">
+                    <label>Тема поста</label>
+                    <select id="theme-select">
+                        <option value="dark">Темная (Lights out)</option>
+                        <option value="dim">Темная (Dim)</option>
+                        <option value="light">Светлая</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label>Задний фон (цвет)</label>
+                    <input type="color" id="bg-color-picker" value="#000000">
+                </div>
+                <div class="input-group">
+                    <label>Задний фон (изображение URL)</label>
+                    <input type="text" id="bg-image-url" placeholder="https://...">
+                </div>
+                <div class="input-group">
+                    <label>Размытие фона (0-20px)</label>
+                    <input type="range" id="bg-blur-range" min="0" max="20" value="0">
+                </div>
+                 <div class="input-group">
+                    <label>Внутренние отступы (padding)</label>
+                    <input type="range" id="padding-range" min="0" max="100" value="40">
+                </div>
+            </details>
+
+            <button id="generate-btn">Скачать PNG 📸</button>
         </div>
 
-        <div class="preview-container">
-            <h3>Предварительный просмотр</h3>
-            <div id="post-preview" class="theme-light">
-                <div id="retweet-header" class="hidden">
-                    <svg viewBox="0 0 24 24" class="retweet-icon"><g><path d="M23.77 15.67c-.292-.293-.767-.293-1.06 0l-2.22 2.22V7.65c0-2.068-1.683-3.75-3.75-3.75h-5.85c-.414 0-.75.336-.75.75s.336.75.75.75h5.85c1.24 0 2.25 1.01 2.25 2.25v10.24l-2.22-2.22c-.293-.293-.768-.293-1.06 0s-.294.768 0 1.06l3.5 3.5c.145.147.337.22.53.22s.383-.072.53-.22l3.5-3.5c.294-.292.294-.767 0-1.06zm-10.66 3.28H7.26c-1.24 0-2.25-1.01-2.25-2.25V6.46l2.22 2.22c.148.147.34.22.532.22s.384-.073.53-.22c.293-.293.293-.768 0-1.06l-3.5-3.5c-.293-.294-.768-.294-1.06 0l-3.5 3.5c-.294.292-.294.767 0 1.06s.767.293 1.06 0l2.22-2.22V16.7c0 2.068 1.683 3.75 3.75 3.75h5.85c.414 0 .75-.336.75-.75s-.336-.75-.75-.75z"></path></g></svg>
-                    <span id="retweeter-name-preview">Elon Musk</span> Retweeted
-                </div>
-                <div id="reply-header" class="hidden">
-                    <div class="reply-to">Ответ <span id="reply-name-preview">Original User</span></div>
-                </div>
-                <div class="post-content">
-                    <div class="post-header">
-                        <img id="avatar-preview" src="https://via.placeholder.com/48" alt="Аватар">
-                        <div class="user-info">
-                            <span id="name-preview" class="name">User Name</span>
-                            <span id="nickname-preview" class="nickname">@username</span>
-                            <i id="verified-icon" class="fas fa-check-circle hidden"></i>
-                        </div>
-                    </div>
-                    <div class="post-body">
-                        <p id="post-text-preview">Это пример текста для генерации поста в стиле X. Теперь можно добавлять темы, изображения и многое другое!</p>
-                        <img id="post-image-preview" class="hidden" alt="Изображение поста">
-                    </div>
-                    <div class="post-footer">
-                        <div class="post-stats">
-                            <span id="retweets-preview"><b>450</b> Ретвитов</span>
-                            <span id="likes-preview"><b>1,500</b> Лайков</span>
-                        </div>
-                    </div>
-                </div>
-                <div id="reply-preview" class="reply-preview hidden">
-                   <div class="post-content">
-                        <div class="post-header">
-                            <img src="https://via.placeholder.com/32" alt="Аватар" class="reply-avatar">
-                            <div class="user-info">
-                                <span class="name">User Name</span>
-                                <span class="nickname">@username</span>
+        <!-- ПРЕВЬЮ ЗОНА -->
+        <div class="preview-area">
+            <div id="capture-wrapper">
+                <div id="post-container" class="theme-dark">
+                    
+                    <!-- Блок родительского поста (для ответов) -->
+                    <div id="reply-parent" class="hidden">
+                        <div class="tweet-header reply-header">
+                            <img id="reply-avatar-preview" src="https://abs.twimg.com/sticky/default_profile_images/default_profile_400x400.png" alt="">
+                            <div class="header-text">
+                                <div class="user-row">
+                                    <span id="reply-name-preview" class="user-name">ShadowSFS</span>
+                                    <span class="user-nick">@reply_user</span>
+                                    <span class="dot-separator">·</span>
+                                    <span class="post-time-ago">6 нояб.</span>
+                                </div>
+                                <div class="post-text reply-text" id="reply-text-preview">
+                                    Joe Chair room tour when?
+                                </div>
                             </div>
                         </div>
-                        <div class="post-body">
-                            <p>Текст ответа</p>
-                        </div>
+                        <div class="reply-connector"></div>
                     </div>
+
+                    <!-- Основной пост -->
+                    <div class="main-tweet">
+                        <div class="tweet-header">
+                            <img id="main-avatar-preview" src="https://via.placeholder.com/48" alt="" crossorigin="anonymous">
+                            <div class="header-text">
+                                <div class="user-row">
+                                    <span id="name-preview" class="user-name">Mike Desjardins</span>
+                                    <!-- Галочки -->
+                                    <svg id="badge-blue" class="badge hidden" viewBox="0 0 22 22"><g><path d="M20.396 11c-.018-.646-.215-1.275-.57-1.816-.354-.54-.852-.972-1.438-1.246.223-.607.27-1.264.14-1.897-.131-.634-.437-1.218-.882-1.687-.47-.445-1.053-.75-1.687-.882-.633-.13-1.29-.083-1.897.14-.273-.587-.704-1.086-1.245-1.44S11.647 1.62 11 1.604c-.646.017-1.273.213-1.813.568s-.969.854-1.24 1.44c-.608-.223-1.267-.272-1.902-.14-.635.13-1.22.436-1.687.882-.445.47-.749 1.055-.878 1.688-.13.633-.08 1.29.144 1.896-.587.274-1.087.705-1.443 1.245-.356.54-.555 1.17-.574 1.817.02.647.218 1.276.574 1.817.356.54.856.972 1.443 1.245-.224.606-.274 1.263-.144 1.896.13.634.433 1.218.877 1.688.47.443 1.054.753 1.687.883.635.132 1.294.084 1.902-.14.272.585.7.1.083 1.24 1.44.54.354 1.167.55 1.813.568.648-.016 1.278-.213 1.816-.568.54-.354.97-.853 1.243-1.44.607.223 1.266.272 1.897.14.633-.13 1.216-.436 1.687-.883.445-.47.75-1.055.882-1.687.13-.633.08-1.29-.14-1.896.585-.274 1.084-.705 1.438-1.245.355-.54.553-1.17.57-1.816zM9.662 14.85l-3.429-3.428 1.293-1.302 2.136 2.138 5.891-5.892 1.293 1.304-7.185 7.18z"></path></g></svg>
+                                    <svg id="badge-gold" class="badge hidden" viewBox="0 0 22 22"><g><path d="M20.396 11c-.018-.646-.215-1.275-.57-1.816-.354-.54-.852-.972-1.438-1.246.223-.607.27-1.264.14-1.897-.131-.634-.437-1.218-.882-1.687-.47-.445-1.053-.75-1.687-.882-.633-.13-1.29-.083-1.897.14-.273-.587-.704-1.086-1.245-1.44S11.647 1.62 11 1.604c-.646.017-1.273.213-1.813.568s-.969.854-1.24 1.44c-.608-.223-1.267-.272-1.902-.14-.635.13-1.22.436-1.687.882-.445.47-.749 1.055-.878 1.688-.13.633-.08 1.29.144 1.896-.587.274-1.087.705-1.443 1.245-.356.54-.555 1.17-.574 1.817.02.647.218 1.276.574 1.817.356.54.856.972 1.443 1.245-.224.606-.274 1.263-.144 1.896.13.634.433 1.218.877 1.688.47.443 1.054.753 1.687.883.635.132 1.294.084 1.902-.14.272.585.7.1.083 1.24 1.44.54.354 1.167.55 1.813.568.648-.016 1.278-.213 1.816-.568.54-.354.97-.853 1.243-1.44.607.223 1.266.272 1.897.14.633-.13 1.216-.436 1.687-.883.445-.47.75-1.055.882-1.687.13-.633.08-1.29-.14-1.896.585-.274 1.084-.705 1.438-1.245.355-.54.553-1.17.57-1.816zM9.662 14.85l-3.429-3.428 1.293-1.302 2.136 2.138 5.891-5.892 1.293 1.304-7.185 7.18z"></path></g></svg>
+                                </div>
+                                <span id="nickname-preview" class="user-nick">@m_ZeroLogics</span>
+                            </div>
+                            <div class="three-dots">
+                                <svg viewBox="0 0 24 24"><g><path d="M3 12c0-1.1.9-2 2-2s2 .9 2 2-.9 2-2 2-2-.9-2-2zm9 2c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm7 0c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2z"></path></g></svg>
+                            </div>
+                        </div>
+                        
+                        <div class="post-text" id="main-text-preview">
+                            So i'm just super curious here, i mean it's not exactly evident or clear in this video, but do you like Bendy?
+                        </div>
+                        
+                        <div class="translate-post">Перевести пост</div>
+                        
+                        <img id="post-image-preview" class="hidden" src="" crossorigin="anonymous">
+                        
+                        <div class="metadata">
+                            <span id="time-preview">8:33 PM</span>
+                            <span class="dot-separator">·</span>
+                            <span id="date-preview">6 нояб. 2025 г.</span>
+                            <span class="dot-separator">·</span>
+                            <span id="views-preview"><b>2 102</b> просмотра</span>
+                        </div>
+                        
+                        <div class="stats-border">
+                            <div class="stats-actions">
+                                <div class="stat-item">
+                                     <svg viewBox="0 0 24 24"><g><path d="M1.751 10c0-4.42 3.584-8 8.005-8h4.366c4.49 0 8.129 3.64 8.129 8.13 0 2.96-1.607 5.68-4.196 7.11l-8.054 4.46v-3.69h-.067c-4.49.1-8.183-3.51-8.183-8.01zm8.005-6c-3.317 0-6.005 2.69-6.005 6 0 3.37 2.77 6.08 6.138 6.01l.351-.01h1.761v2.3l5.087-2.81c1.951-1.08 3.163-3.13 3.163-5.36 0-3.39-2.744-6.13-6.129-6.13H9.756z"></path></g></svg>
+                                     <span id="comments-count-preview">21</span>
+                                </div>
+                                <div class="stat-item">
+                                     <svg viewBox="0 0 24 24"><g><path d="M4.5 3.88l4.432 4.14-1.364 1.46L5.5 7.55V16c0 1.1.896 2 2 2H13v2H7.5c-2.209 0-4-1.79-4-4V7.55L1.432 9.48.068 8.02 4.5 3.88zM16.5 6H11V4h5.5c2.209 0 4 1.79 4 4v8.45l2.068-1.93 1.364 1.46-4.432 4.14-4.432-4.14 1.364-1.46 2.068 1.93V8c0-1.1-.896-2-2-2z"></path></g></svg>
+                                     <span id="retweets-count-preview">13</span>
+                                </div>
+                                <div class="stat-item">
+                                     <svg viewBox="0 0 24 24"><g><path d="M16.697 5.5c-1.222-.06-2.679.51-3.89 2.16l-.805 1.09-.806-1.09C9.984 6.01 8.526 5.44 7.304 5.5c-1.243.07-2.349.78-2.91 1.91-.552 1.12-.633 2.78.479 4.82 1.074 1.97 3.257 4.27 7.129 6.61 3.87-2.34 6.052-4.64 7.126-6.61 1.111-2.04 1.03-3.7.477-4.82-.561-1.13-1.666-1.84-2.908-1.91zm4.187 7.69c-1.351 2.48-4.001 5.12-8.379 7.67l-.503.3-.504-.3c-4.379-2.55-7.029-5.19-8.382-7.67-1.36-2.5-1.41-4.86-.427-6.7 1.036-1.94 3.11-3.04 5.625-2.91 2.053.1 3.648 1.19 4.683 2.74 1.034-1.55 2.63-2.64 4.683-2.74 2.515-.13 4.588.97 5.62 2.91.99 1.84.94 4.2-.413 6.7z"></path></g></svg>
+                                     <span id="likes-count-preview">163</span>
+                                </div>
+                                <div class="stat-item">
+                                    <svg viewBox="0 0 24 24"><g><path d="M12 2.59l5.7 5.7-1.41 1.42L13 6.41V16h-2V6.41l-3.3 3.3-1.41-1.42L12 2.59zM21 15l-.02 3.51c0 1.38-1.12 2.49-2.5 2.49H5.5C4.11 21 3 19.88 3 18.5V15h2v3.5c0 .28.22.5.5.5h12.98c.28 0 .5-.22.5-.5L19 15h2z"></path></g></svg>
+                                </div>
+                            </div>
+                        </div>
+                    </div> <!-- Конец main tweet -->
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Библиотека для генерации изображения из HTML -->
+    <!-- Библиотека -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <script src="script.js"></script>
 </body>
