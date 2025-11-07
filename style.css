@@ -2,10 +2,11 @@
     --border-radius-m: 16px;
     --border-radius-s: 8px;
     --border-radius-full: 999px;
+    --font-family: 'Roboto', sans-serif;
 }
 
 body {
-    font-family: 'Roboto', sans-serif;
+    font-family: var(--font-family);
     background-color: #f0f2f5;
     color: #333;
     display: flex;
@@ -48,7 +49,9 @@ body {
 }
 .input-group input[type="text"],
 .input-group input[type="number"],
-.input-group textarea {
+.input-group textarea,
+.input-group input[type="color"],
+.input-group select{
     width: 100%;
     padding: 0.75rem;
     border: 1px solid #ccc;
@@ -96,7 +99,11 @@ button#generate-image-btn:hover {
     background: #f0f0f0;
     cursor: pointer;
 }
-
+.reply-to {
+    font-size: 0.8rem;
+    color: #8899a6;
+    margin-bottom: 0.5rem;
+}
 
 .preview-container {
     flex: 1;
@@ -105,7 +112,6 @@ button#generate-image-btn:hover {
 
 /* --- СТИЛИ ПОСТА --- */
 #post-preview {
-    border: 1px solid var(--border-color);
     border-radius: var(--border-radius-m);
     max-width: 550px;
     margin: auto;
@@ -113,10 +119,33 @@ button#generate-image-btn:hover {
     background-color: var(--bg-color);
     color: var(--text-primary);
     transition: background-color 0.3s, color 0.3s;
+    overflow: hidden; /* Важно для обрезки фона */
+    position: relative;
 }
+
+/* Фон поста */
+#post-preview::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    background-color: var(--bg-color); /* Используем переменную для цвета фона */
+    background-size: cover;
+    background-position: center;
+    filter: blur(var(--bg-blur, 0px)); /* Размытие фона */
+    border-radius: var(--border-radius-m);
+    border: var(--border-width, 1px) var(--border-style, solid) var(--border-color, #e1e8ed);
+}
+
 .post-content {
     padding: 1rem;
+    position: relative; /* Чтобы контент был поверх фона */
+    z-index: 1;
 }
+
 .retweet-header {
     padding: 0.75rem 1rem;
     font-size: 0.9rem;
@@ -143,16 +172,22 @@ button#generate-image-btn:hover {
 }
 .user-info {
     display: flex;
-    flex-direction: column;
+    align-items: center; /* Выравниваем по вертикали */
 }
 .user-info .name {
     font-weight: 700;
     font-size: 1rem;
     color: var(--text-primary);
+    margin-right: 0.5rem;
 }
 .user-info .nickname {
     font-size: 0.9rem;
     color: var(--text-secondary);
+}
+#verified-icon {
+    color: #1DA1F2;
+    margin-left: 0.25rem;
+    font-size: 0.9rem;
 }
 .post-body p {
     font-size: 1.1rem;
@@ -163,7 +198,6 @@ button#generate-image-btn:hover {
 #post-image-preview {
     width: 100%;
     border-radius: var(--border-radius-m);
-    border: 1px solid var(--border-color);
     margin-top: 0.75rem;
 }
 .post-footer {
@@ -179,6 +213,24 @@ button#generate-image-btn:hover {
 .post-stats b {
     color: var(--text-primary);
 }
+.reply-preview {
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius-m);
+    margin-top: 1rem;
+    overflow: hidden;
+}
+.reply-preview .post-content {
+    padding: 0.75rem 1rem;
+}
+.reply-preview .post-header {
+    margin-bottom: 0.5rem;
+}
+.reply-preview .reply-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    margin-right: 0.75rem;
+}
 
 /* --- ТЕМЫ --- */
 .theme-light {
@@ -186,16 +238,29 @@ button#generate-image-btn:hover {
     --text-primary: #0f1419;
     --text-secondary: #5b7083;
     --border-color: #e1e8ed;
+    --border-width: 1px;
+    --border-style: solid;
+    --bg-blur: 0px;
 }
 .theme-dim {
     --bg-color: #15202b;
     --text-primary: #ffffff;
     --text-secondary: #8899a6;
     --border-color: #38444d;
+    --border-width: 1px;
+    --border-style: solid;
+    --bg-blur: 0px;
 }
 .theme-dark {
     --bg-color: #000000;
     --text-primary: #d9d9d9;
     --text-secondary: #6e767d;
     --border-color: #2f3336;
+    --border-width: 1px;
+    --border-style: solid;
+    --bg-blur: 0px;
+}
+/* Стили для фона */
+#post-preview::before {
+    background-image: url(''); /*  Изначально пустое значение */
 }
